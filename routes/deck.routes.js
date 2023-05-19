@@ -53,12 +53,22 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+//Get 1 random deck
+router.get("/random", async (req, res, next) => {
+  try {
+    const randomSelection = await Deck.aggregate([{ $sample: { size: 1 } }]);
+    console.log(randomSelection);
+    res.status(200).json(randomSelection);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //Get one deck
 router.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const oneDeck = await Deck.findById(id);
-    console.log(oneDeck);
     res.status(200).json(oneDeck);
   } catch (error) {
     console.log(error);
