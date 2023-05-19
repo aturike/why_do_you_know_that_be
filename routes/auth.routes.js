@@ -13,19 +13,19 @@ router.post("/signup", async (req, res, next) => {
       email: req.body.email,
       password: hashed,
     });
-    res.status(201).json("New User created");
+    res.status(201).json("Sign up good");
   } catch (error) {
     console.log(error);
   }
-  res.status(201).json("Sign up good");
 });
 
 router.post("/login", async (req, res, next) => {
   //checking if the user is in the DB
-  const userExists = User.findOne({ email: req.body.email });
+  const userExists = await User.findOne({ username: req.body.username });
 
   if (userExists) {
     if (bcryptjs.compareSync(req.body.password, userExists.password)) {
+      console.log("is this working");
       const authToken = jwt.sign(
         { userId: userExists._id },
         process.env.TOKEN_SECRET,
@@ -34,7 +34,8 @@ router.post("/login", async (req, res, next) => {
           expiresIn: "24h",
         }
       );
-      res.json(authToken);
+      console.log(authToken);
+      res.status(200).json(authToken);
     } else {
       res.json("incorrect password or username");
     }
