@@ -53,11 +53,27 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-//Get 1 random deck
+//Get all random deck
 router.get("/random", async (req, res, next) => {
   try {
-    const randomSelection = await Deck.aggregate([{ $sample: { size: 1 } }]);
-    console.log(randomSelection);
+    const count = await Deck.countDocuments();
+    const randomSelection = await Deck.aggregate([
+      { $sample: { size: count } },
+    ]);
+    res.status(200).json(randomSelection);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//Get on random deck
+router.get("/random/:count", async (req, res, next) => {
+  try {
+    const { count } = req.params;
+    const number = parseInt(count);
+    const randomSelection = await Deck.aggregate([
+      { $sample: { size: number } },
+    ]);
     res.status(200).json(randomSelection);
   } catch (error) {
     console.log(error);
