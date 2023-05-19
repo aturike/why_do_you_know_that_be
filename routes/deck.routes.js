@@ -15,38 +15,8 @@ router.get("/", async (req, res, next) => {
 //Create a new deck
 router.post("/", async (req, res, next) => {
   try {
-    //ONLY FOR TESTING
-    const standardCard = [
-      {
-        text: "Rhino",
-        value: 1,
-        img: "https://tinyurl.com/2wttj549",
-      },
-      {
-        text: "Monkey",
-        value: 100,
-        img: "https://tinyurl.com/2wttj549",
-      },
-      {
-        text: "Dog",
-        value: 55,
-        img: "https://tinyurl.com/2wttj549",
-      },
-      {
-        text: "Cat",
-        value: 21,
-        img: "https://tinyurl.com/2wttj549",
-      },
-      {
-        text: "Doplhin",
-        value: 34,
-        img: "https://tinyurl.com/2wttj549",
-      },
-    ];
     const inputObj = req.body;
-    const inputTestObj = { ...inputObj, cards: standardCard };
-
-    const createdDeck = await Deck.create(inputTestObj);
+    const createdDeck = await Deck.create(inputObj);
     res.status(201).json(createdDeck);
   } catch (error) {
     console.log(error);
