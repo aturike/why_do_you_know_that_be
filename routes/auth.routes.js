@@ -44,7 +44,7 @@ router.post("/login", async (req, res, next) => {
 
 router.get("/verify", isAuthenticated, async (req, res) => {
   const user = await User.findById(req.payload.userId);
-  res.json({ message: "user is autenticated", payload: user });
+  res.status(200).json({ message: "user is autenticated", payload: user });
 });
 
 module.exports = router;
