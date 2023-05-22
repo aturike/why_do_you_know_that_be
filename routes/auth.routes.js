@@ -28,7 +28,7 @@ router.post("/login", async (req, res, next) => {
       if (bcryptjs.compareSync(req.body.password, userExists.password)) {
         console.log("is this working");
         const authToken = jwt.sign(
-          { userId: userExists._id },
+          { userId: userExists._id, username: userExists.username },
           process.env.TOKEN_SECRET,
           {
             algorithm: "HS256",
@@ -43,7 +43,7 @@ router.post("/login", async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({message:"Internal Server Error", error})
+    res.status(500).json({ message: "Internal Server Error", error });
   }
 });
 
