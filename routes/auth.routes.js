@@ -36,7 +36,7 @@ router.post("/login", async (req, res, next) => {
           }
         );
         console.log(authToken);
-        res.status(200).json({message:"user found, logged in", authToken});
+        res.status(200).json(authToken);
       } else {
         res.status(401).json("incorrect password or username");
       }
