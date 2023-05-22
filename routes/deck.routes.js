@@ -65,15 +65,8 @@ router.get("/:id", async (req, res, next) => {
 router.put("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
-    //ONLY FOR TESTING
-    const standardCard = [
-      { text: "Rhino", value: 10, img: "test" },
-      { text: "Monkey", value: 8, img: "test" },
-    ];
     const inputObj = req.body;
-    const inputTestObj = { ...inputObj, cards: standardCard };
-
-    const updatedDeck = await Deck.findByIdAndUpdate(id, inputTestObj, {
+    const updatedDeck = await Deck.findByIdAndUpdate(id, inputObj, {
       new: true,
     });
     console.log("Updated new deck", updatedDeck);
