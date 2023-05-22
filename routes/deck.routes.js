@@ -1,5 +1,5 @@
 const Deck = require("../models/Deck.model");
-
+const mongoose = require("mongoose");
 const router = require("express").Router();
 
 //Get all decks
@@ -36,14 +36,23 @@ router.get("/random", async (req, res, next) => {
   }
 });
 
-//Get on random deck
-router.get("/random/:count", async (req, res, next) => {
+//Get all random decks by id
+router.get("/random/:userId", async (req, res, next) => {
   try {
-    const { count } = req.params;
-    const number = parseInt(count);
+    const { userId } = req.params;
+
+    console.log(userId);
+    const count = await Deck.countDocuments();
     const randomSelection = await Deck.aggregate([
-      { $sample: { size: number } },
+      { $sample: { size: count } },
+      {
+        $match: {
+          $expr: { $eq: ["$userId", { $toObjectId: userId }] },
+        },
+      },
     ]);
+
+    console.log(randomSelection);
     res.status(200).json(randomSelection);
   } catch (error) {
     console.log(error);
