@@ -47,7 +47,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.get("/verify/", isAuthenticated, async (req, res) => {
+router.get("/verify", isAuthenticated, async (req, res) => {
   try {
     const user = await User.findById(req.payload.userId);
     if (user) {
