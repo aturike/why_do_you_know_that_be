@@ -40,8 +40,6 @@ router.get("/random", async (req, res, next) => {
 router.get("/random/:userId", async (req, res, next) => {
   try {
     const { userId } = req.params;
-
-    console.log(userId);
     const count = await Deck.countDocuments();
     const randomSelection = await Deck.aggregate([
       { $sample: { size: count } },
@@ -51,8 +49,6 @@ router.get("/random/:userId", async (req, res, next) => {
         },
       },
     ]);
-
-    console.log(randomSelection);
     res.status(200).json(randomSelection);
   } catch (error) {
     console.log(error);

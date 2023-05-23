@@ -24,6 +24,9 @@ app.use("/auth", authRoutes);
 const deckRoutes = require("./routes/deck.routes");
 app.use("/decks", deckRoutes);
 
+const leaderboard = require("./routes/leaderboard.routes");
+app.use("/leaderboard", leaderboard);
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 

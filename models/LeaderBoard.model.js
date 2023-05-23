@@ -2,16 +2,14 @@ const { Schema, model } = require("mongoose");
 
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const leaderboardSchema = new Schema({
-  name: {
+  userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  username: {
     type: String,
-    required: true,
   },
-  level: {
-    type: Number,
-    required: true,
-  },
+  gameId: { type: Schema.Types.ObjectId, ref: "User" },
   score: {
     type: Number,
+    required: true,
   },
 });
 

@@ -51,10 +51,29 @@ router.get("/verify", isAuthenticated, async (req, res) => {
   try {
     const user = await User.findById(req.payload.userId);
     if (user) {
-      res.status(200).json({ message: "user is autenticated", payload: user });
+      const sendDataUser = {
+        isAdmin: user.isAdmin,
+        _id: user._id,
+        username: user.username,
+      };
+
+      res
+        .status(200)
+        .json({ message: "user is autenticated", payload: sendDataUser });
     } else {
       res.status(404).json({ message: "User not found" });
     }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "interenal server error", error });
+  }
+});
+
+router.get("/user/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id);
+    res.status(200).json(user);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "interenal server error", error });
