@@ -2,6 +2,8 @@ const Deck = require("../models/Deck.model");
 const mongoose = require("mongoose");
 const router = require("express").Router();
 
+const uploader = require("../middleware/cloudinary.config");
+
 //Get all decks
 router.get("/", async (req, res, next) => {
   try {
