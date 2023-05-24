@@ -25,6 +25,20 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+//Cloudinary request
+router.post(
+  "/cloudinary",
+  uploader.single("imageUrl"),
+  async (req, res, next) => {
+    const imageUrl = req.body.path;
+    try {
+      res.status(201).json(imageUrl);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 //Get all random deck
 router.get("/random", async (req, res, next) => {
   try {
