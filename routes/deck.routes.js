@@ -30,7 +30,9 @@ router.post(
   "/cloudinary",
   uploader.single("imageUrl"),
   async (req, res, next) => {
-    const imageUrl = req.body.path;
+    console.log(req.file);
+    console.log(req);
+    const imageUrl = req.file.path;
     try {
       res.status(201).json(imageUrl);
     } catch (error) {
