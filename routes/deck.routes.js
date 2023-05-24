@@ -36,6 +36,30 @@ router.get("/random", async (req, res, next) => {
   }
 });
 
+//Get all admin deck in random order
+router.get("/random/admin", async (req, res, next) => {
+  try {
+    const count = await Deck.countDocuments();
+    const randomSelection = await Deck.aggregate([
+      { $sample: { size: count } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      { $addFields: { isAdmin: { $arrayElemAt: ["$user.isAdmin", 0] } } },
+      { $match: { isAdmin: true } },
+      { $project: { isAdmin: 0, user: 0 } },
+    ]);
+    res.status(200).json(randomSelection);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //Get all random decks by id
 router.get("/random/:userId", async (req, res, next) => {
   try {

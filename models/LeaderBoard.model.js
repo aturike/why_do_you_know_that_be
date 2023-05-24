@@ -6,6 +6,9 @@ const leaderboardSchema = new Schema({
   username: {
     type: String,
   },
+  gameUserName: {
+    type: String,
+  },
   gameId: { type: Schema.Types.ObjectId, ref: "User" },
   score: {
     type: Number,

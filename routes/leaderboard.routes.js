@@ -15,8 +15,8 @@ router.get("/", async (req, res, next) => {
 //Get userspecific highscore
 router.get("/user/:userid", async (req, res, next) => {
   try {
-    const { userId } = req.params;
-    const userHighscore = await LeaderBoard.find({ userId: userId });
+    const { userid } = req.params;
+    const userHighscore = await LeaderBoard.find({ userId: userid });
     res.status(200).json(userHighscore);
   } catch (error) {
     console.log(error);
