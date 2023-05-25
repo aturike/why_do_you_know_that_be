@@ -106,6 +106,23 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+//Get all decks for user
+router.get("/user/:userid", async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const orderedSelection = await Deck.aggregate([
+      {
+        $match: {
+          $expr: { $eq: ["$userId", { $toObjectId: userId }] },
+        },
+      },
+    ]);
+    res.status(200).json(orderedSelection);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //Update one deck
 router.put("/:id", async (req, res, next) => {
   try {
