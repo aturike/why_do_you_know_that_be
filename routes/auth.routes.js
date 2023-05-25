@@ -8,14 +8,21 @@ router.post("/signup", async (req, res, next) => {
   const salt = bcryptjs.genSaltSync(13);
   const hashed = bcryptjs.hashSync(req.body.password, salt);
   try {
-    await User.create({
-      username: req.body.username,
-      email: req.body.email,
-      password: hashed,
-    });
-    res.status(201).json("Sign up good");
+    const userExists = await User.findOne({ username: req.body.username });
+
+    if (!userExists) {
+      await User.create({
+        username: req.body.username,
+        email: req.body.email,
+        password: hashed,
+      });
+      res.status(201).json("Sign up good");
+    } else {
+      res.status(409).json("Username exists");
+    }
   } catch (error) {
     console.log(error);
+    res.status(500).json({ message: "Internal Server Error", error });
   }
 });
 
@@ -26,7 +33,6 @@ router.post("/login", async (req, res, next) => {
 
     if (userExists) {
       if (bcryptjs.compareSync(req.body.password, userExists.password)) {
-        console.log("is this working");
         const authToken = jwt.sign(
           { userId: userExists._id, username: userExists.username },
           process.env.TOKEN_SECRET,
@@ -35,11 +41,12 @@ router.post("/login", async (req, res, next) => {
             expiresIn: "24h",
           }
         );
-        console.log(authToken);
         res.status(200).json(authToken);
       } else {
-        res.status(401).json("incorrect password or username");
+        res.status(401).json("incorrect password");
       }
+    } else {
+      res.status(401).json("incorrect username");
     }
   } catch (error) {
     console.log(error);

@@ -116,7 +116,6 @@ router.put("/:id", async (req, res, next) => {
     const updatedDeck = await Deck.findByIdAndUpdate(id, inputObj, {
       new: true,
     });
-    console.log("Updated new deck", updatedDeck);
     res.status(200).json(updatedDeck);
   } catch (error) {
     console.log(error);
