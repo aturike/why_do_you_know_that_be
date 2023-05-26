@@ -24,18 +24,21 @@ router.get("/user/:userid", async (req, res, next) => {
 });
 
 //Get gamespecific highscore
+router.get("/game/admin", async (req, res, next) => {
+  try {
+    const gameHighscore = await LeaderBoard.find({ gameUserName: "main" });
+    res.status(200).json(gameHighscore);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//Get gamespecific highscore
 router.get("/game/:gameid", async (req, res, next) => {
   try {
     const { gameid } = req.params;
-    if (gameid) {
-      const gameHighscore = await LeaderBoard.find({ gameId: gameid });
-      res.status(200).json(gameHighscore);
-    } else {
-      const gameHighscore = await LeaderBoard.find({
-        gameUserName: "main",
-      });
-      res.status(200).json(gameHighscore);
-    }
+    const gameHighscore = await LeaderBoard.find({ gameId: gameid });
+    res.status(200).json(gameHighscore);
   } catch (error) {
     console.log(error);
   }
