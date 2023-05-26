@@ -27,8 +27,15 @@ router.get("/user/:userid", async (req, res, next) => {
 router.get("/game/:gameid", async (req, res, next) => {
   try {
     const { gameid } = req.params;
-    const gameHighscore = await LeaderBoard.find({ gameId: gameid });
-    res.status(200).json(gameHighscore);
+    if (gameid) {
+      const gameHighscore = await LeaderBoard.find({ gameId: gameid });
+      res.status(200).json(gameHighscore);
+    } else {
+      const gameHighscore = await LeaderBoard.find({
+        gameUserName: "main",
+      });
+      res.status(200).json(gameHighscore);
+    }
   } catch (error) {
     console.log(error);
   }
