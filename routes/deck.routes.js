@@ -102,7 +102,7 @@ router.get("/:id", async (req, res, next) => {
     const oneDeck = await Deck.findById(id);
     res.status(200).json(oneDeck);
   } catch (error) {
-    res.status(400);
+    res.status(400).json("error");
     console.log(error);
   }
 });
